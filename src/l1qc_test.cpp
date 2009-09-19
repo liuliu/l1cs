@@ -14,9 +14,9 @@ void icvAtOps( CvMat* X, CvMat* Y, void* userdata )
 
 int main()
 {
-	const int N = 4096;
-	const int K = 64;
-	const int T = 10;
+	const int N = 256;
+	const int K = 128;
+	const int T = 20;
 	CvMat* A = cvCreateMat( K, N, CV_64FC1 );
 	CvMat* X = cvCreateMat( N, 1, CV_64FC1 );
 	CvMat* Y = cvCreateMat( K, 1, CV_64FC1 );

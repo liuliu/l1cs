@@ -1,8 +1,8 @@
 OPENCV = /opt/opencv
 CXX = g++
-LINKFLAG = -ldl -lpthread -lrt -lcv 
+LINKFLAG = -ldl -lpthread -lrt -lcv -pg
 INCFLAGS = -I"$(OPENCV)/include/opencv"
-CXXFLAGS = -O3 --fast-math -msse2
+CXXFLAGS = -O3 --fast-math -msse2 -pg
 
 all: cgsolve_test l1qc_test
 

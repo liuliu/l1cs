@@ -52,7 +52,7 @@ double cvCGSolve( CvMatOps AOps, void* userdata, CvMat* B, CvMat* X, CvTermCrite
 	double delta0 = delta;
 	double bestres = 1.;
 	CvMat* BX = cvCloneMat( X );
-	CvMat* Q = cvCloneMat( X );
+	CvMat* Q = cvCreateMat( X->rows, X->cols, CV_MAT_TYPE(X->type) );
 	for ( int i = 0; i < term_crit.max_iter; i++ )
 	{
 		AOps( D, Q, userdata );
