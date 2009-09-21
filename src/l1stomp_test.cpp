@@ -1,4 +1,4 @@
-#include "cvl1qc.h"
+#include "cvl1stomp.h"
 
 void icvAOps( CvMat* X, CvMat* Y, void* userdata )
 {
@@ -28,20 +28,22 @@ int main()
 		int idx = cvRandInt( &rng_state ) % N;
 		X->data.db[idx] = (int)(cvRandInt( &rng_state ) % 3) - 1;
 	}
+	//double norm = cvNorm( X );
+	//for ( int i = 0; i < N; i++ )
+	//	X->data.db[i] = X->data.db[i] / norm;
 	double sigma = .005;
 	CvMat* e = cvCreateMat( K, 1, CV_64FC1 );
-	cvRandArr( &rng_state, e, CV_RAND_NORMAL, cvScalar(0), cvScalar(sigma) );
+	cvZero( e );
+	//cvRandArr( &rng_state, e, CV_RAND_NORMAL, cvScalar(0), cvScalar(sigma) );
 	cvMatMulAdd( A, X, e, Y );
-	double epsilon = sigma * sqrt(K) * sqrt(1 + 2 * sqrt(2) / sqrt(K));
+	double epsilon = .5;//sigma * sqrt(K) * sqrt(1 + 2 * sqrt(2) / sqrt(K));
 	CvMat* X0 = cvCreateMat( N, 1, CV_64FC1 );
-	printf("||X0 - X|| Before L1QC : %f\n", cvNorm(X0, X, CV_L1));
+	printf("||X0 - X|| Before L1StOMP : %f\n", cvNorm(X0, X, CV_L1));
 	double t = (double)cvGetTickCount();
-	cvL1QCSolve( icvAOps, icvAtOps, A, Y, X0, epsilon );
+	cvL1StOMPSolve( A, Y, X0, epsilon );
 	t = (double)cvGetTickCount() - t;
 	printf( "time = %gms\n", t/((double)cvGetTickFrequency() * 1000.) );
-	printf("||X0 - X|| After L1QC : %f\n", cvNorm(X0, X, CV_L1));
-	//for ( int i = 0; i < N; i++ )
-	//	printf("%f %f\n", X->data.db[i], X0->data.db[i]);
+	printf("||X0 - X|| After L1StOMP : %f\n", cvNorm(X0, X, CV_L1));
 	cvReleaseMat( &X0 );
 	cvReleaseMat( &e );
 	cvReleaseMat( &Y );
@@ -49,3 +51,4 @@ int main()
 	cvReleaseMat( &A );
 	return 0;
 }
+

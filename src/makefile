@@ -1,15 +1,18 @@
 OPENCV = /opt/opencv
 CXX = g++
-LINKFLAG = -ldl -lpthread -lrt -lcv -pg
+LINKFLAG = -ldl -lpthread -lrt -lcv
 INCFLAGS = -I"$(OPENCV)/include/opencv"
-CXXFLAGS = -O3 --fast-math -msse2 -pg
+CXXFLAGS = -O3 --fast-math -msse2 
 
-all: cgsolve_test l1qc_test
+all: cgsolve_test l1qc_test l1stomp_test
 
 clean:
-	rm *.o cgsolve_test l1qc_test
+	rm *.o cgsolve_test l1qc_test l1stomp_test
 
 cgsolve_test: cgsolve_test.o cvcgsolve.o
+	$(CXX) -o $@ $^ $(LINKFLAG)
+
+l1stomp_test: l1stomp_test.o cvl1stomp.o cvcgsolve.o
 	$(CXX) -o $@ $^ $(LINKFLAG)
 
 l1qc_test: l1qc_test.o cvl1qc.o cvcgsolve.o
