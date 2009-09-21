@@ -15,7 +15,7 @@ void icvAOps( CvMat* X, CvMat* Y, CvMat* I, void* userdata )
 			if ( *Ip )
 			{
 				y += (*Xp) * (*Ap);
-				++Xp;
+				++Xp; // NOTE: only move forward when it has value.
 			}
 			++Ap;
 		}
@@ -39,7 +39,7 @@ void icvAtOps( CvMat* X, CvMat* Y, CvMat* I, void* userdata )
 			if ( *Ip )
 			{
 				*Yp += (*Xp) * (*Ap);
-				++Yp;
+				++Yp; // NOTE: only move forward when it has value.
 			}
 			++Ap;
 		}
